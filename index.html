@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consulta tu grupo — Curso Gamificación</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #075E54 0%, #128C7E 50%, #25D366 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .container {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.3);
+    max-width: 480px;
+    width: 100%;
+    padding: 40px 32px;
+    text-align: center;
+  }
+  h1 { color: #075E54; font-size: 1.5rem; margin-bottom: 8px; }
+  .subtitle { color: #667; margin-bottom: 24px; font-size: .95rem; }
+  label { display: block; text-align: left; font-weight: 600; color: #333; margin-bottom: 6px; font-size: .9rem; }
+  input {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1.1rem;
+    border: 2px solid #dfe5df;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color .2s;
+    letter-spacing: .5px;
+  }
+  input:focus { border-color: #25D366; }
+  button {
+    width: 100%;
+    margin-top: 14px;
+    background: #128C7E;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  button:hover { background: #0d6e63; }
+  #resultado { margin-top: 24px; }
+  .error {
+    background: #fdecea;
+    border-left: 4px solid #d93025;
+    color: #8a1f16;
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: .9rem;
+    text-align: left;
+  }
+  .aviso {
+    margin-top: 24px;
+    background: #f1f6f3;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: .8rem;
+    color: #556;
+  }
+  footer { margin-top: 20px; color: #99a; font-size: .78rem; }
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 100;
+    animation: fadeIn .2s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .popup {
+    background: #fff;
+    border-radius: 16px;
+    max-width: 400px;
+    width: 100%;
+    padding: 32px 28px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 24px 64px rgba(0,0,0,.35);
+    animation: saltar .25s ease;
+  }
+  @keyframes saltar { from { opacity: 0; transform: scale(.92) translateY(12px); } to { opacity: 1; transform: none; } }
+  .popup .cerrar {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color: #99a;
+    cursor: pointer;
+    width: auto;
+    margin: 0;
+    padding: 4px 8px;
+    line-height: 1;
+  }
+  .popup .cerrar:hover { color: #333; background: none; }
+  .popup .icono { font-size: 2.4rem; margin-bottom: 8px; }
+  .popup .grupo-num {
+    background: #25D366;
+    color: #fff;
+    font-weight: 700;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin: 0 auto 14px;
+  }
+  .popup h2 { color: #075E54; font-size: 1.25rem; margin-bottom: 8px; }
+  .popup .nombre {
+    color: #111;
+    font-weight: 700;
+    font-size: 1.15rem;
+    background: #e8f8ef;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+  }
+  .popup p { color: #667; font-size: .9rem; margin-bottom: 18px; }
+  .popup .btn-wsp {
+    display: block;
+    width: 100%;
+    background: #25D366;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 14px 34px;
+    border-radius: 28px;
+    font-size: 1.05rem;
+    transition: background .2s;
+  }
+  .popup .btn-wsp:hover { background: #1da851; }
+</style>
+</head>
+<body>
+  <main class="container">
+    <h1>📱 Consulta tu grupo de WhatsApp</h1>
+    <p class="subtitle">Curso de Gamificación — Escribe tu número de cédula de identidad y te mostraremos únicamente el enlace del grupo que te corresponde.</p>
+
+    <form id="form" autocomplete="off">
+      <label for="ci">Número de C.I.</label>
+      <input id="ci" type="text" inputmode="text" placeholder="Ej. 6104168" required>
+      <button type="submit">Ver mi grupo</button>
+    </form>
+
+    <div id="resultado"></div>
+    <div id="popup-container"></div>
+
+    <div class="aviso">
+      🔒 Esta página solo muestra tu primer nombre y las iniciales de tus apellidos para que confirmes tu identidad. Si tu C.I. no aparece, contacta al organizador.
+    </div>
+
+    <footer>Curso de Gamificación — UNEFCO</footer>
+  </main>
+
+<script>
+const DATOS = [["6104168",1,"Juan Á. M."],["10026068",1,"Iván A. C."],["3499635",1,"Abdel A. V."],["6791816",1,"Gonzalo A. C."],["2383715",1,"Ana A. T."],["8409882",1,"Lorgio A. A."],["4980434",1,"Edgar A. C."],["8447977",1,"Jaime A. Q."],["2301876",1,"Juan B. P."],["2368554",1,"Juan B. M."],["4251679",1,"Lilian B. H."],["6074604",1,"Mérida C. T."],["6883699",1,"Gualberto C. H."],["5960485",1,"Efrain C. M."],["8415412",1,"Javier C. Q."],["1362706",1,"Grosby C. H."],["4987598",1,"Diego C. A."],["4261767",1,"María C."],["4887082",1,"Daniel C. M."],["6093714",1,"Ruddy C. L."],["8350459",1,"Luis C. A."],["9999699",1,"Gualberto C. F."],["3480729",1,"Eulogio C. K."],["5742041",1,"Eddy C. A."],["4250802",1,"Wilma C. C."],["4967116",1,"Vania C. M."],["6852219",1,"Marco C. C."],["10038353",2,"Jhesenia F. F."],["2016984",2,"Rogelio F. H."],["4763460",2,"Andrez F. P."],["4952969",2,"Jhovanna G. F."],["4640875",2,"María G. B."],["2630332",2,"Jose G. G."],["4369225",2,"Jose G. A."],["4818501",2,"Jorge H. M."],["4919217",2,"Johannes H. L."],["4845692",2,"Orlando L. C."],["8318114",2,"Guido L. H."],["6119564",2,"Dorís L. C."],["3427621",2,"Pedro L. V."],["6080199",2,"Denisse M. H."],["5943198",2,"Mariela M. M."],["8431866",2,"Freddy M. P."],["4969338",2,"Julio M. Q."],["2602654",2,"Alfredo M. M."],["4262775",2,"Jose M. M."],["7024261",2,"William M. Q."],["6430736",2,"Luz M. C."],["6178591",2,"Claribel O. V."],["3455154",2,"Miriam P. C."],["7801456",2,"José P. R."],["4895312",2,"Lourdes Q. C."],["9909574",2,"Maria Q. C."],["4777282",2,"Reynaldo Q. H."],["4265867",3,"German Q. L."],["9968611",3,"Amador Q. M."],["4937644",3,"Ruben Q. P."],["6729549",3,"Karla R. I."],["6147990",3,"Roger R. A."],["9960109",3,"Sonia R. Q."],["6048345",3,"Lourdes R. Z."],["6181252",3,"Mabel R. T."],["2710481",3,"Alejandro R. E."],["8311371",3,"Elvis R. R."],["4894132",3,"Cesar R. M."],["2705920",3,"Rafael S. Q."],["5943884",3,"Gustavo S. M."],["6122750",3,"Angela S. C."],["4960313",3,"Jimmy S. C."],["3430003",3,"Manuel T."],["3434026",3,"Wilson T. A."],["5983811",3,"Amalia T. F."],["8331105",3,"Marcela U. C."],["5069516",3,"Nestor V. G."],["9958298",3,"Alvaro V. R."],["3538847",3,"Martha V. A."],["4871310",3,"Ramiro V. Q."],["5956113",3,"Lila V. S."],["3375755",3,"H V. H."],["3459630",3,"Willy Y. C."],["4802627",3,"Nikky Z. L."]];
+const LINKS = {"1":"https://chat.whatsapp.com/FyrjPczibCN5HnxwR50eAL","2":"https://chat.whatsapp.com/L2YaKbZ3lwSHyLMyHrEU4y","3":"https://chat.whatsapp.com/LOejfZ3qgGOFydGV2LscaS"};
+
+const form = document.getElementById('form');
+const input = document.getElementById('ci');
+const resultado = document.getElementById('resultado');
+const popupContainer = document.getElementById('popup-container');
+
+function cerrarPopup() {
+  popupContainer.innerHTML = '';
+}
+
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+  const ci = input.value.trim().toLowerCase();
+  resultado.innerHTML = '';
+  cerrarPopup();
+  if (!ci) return;
+
+  const encontrado = DATOS.find(function (d) { return d[0].toLowerCase() === ci; });
+
+  if (!encontrado) {
+    resultado.innerHTML = '<div class="error">❌ No se encontró tu C.I. en la lista de participantes. Verifica que esté escrito correctamente o contacta al organizador.</div>';
+    return;
+  }
+
+  const g = encontrado[1];
+  const nombre = encontrado[2];
+  const link = LINKS[g];
+  popupContainer.innerHTML =
+    '<div class="overlay" id="overlay">' +
+      '<div class="popup">' +
+        '<button class="cerrar" id="btn-cerrar" aria-label="Cerrar">✕</button>' +
+        '<div class="icono">👋</div>' +
+        '<h2>¡Hola!</h2>' +
+        '<div class="nombre">' + nombre + '</div>' +
+        '<div class="grupo-num">' + g + '</div>' +
+        '<h2>Tu grupo es el Grupo ' + g + '</h2>' +
+        '<p>Si este eres tú, únete únicamente a este grupo. Si entras a otro, serás removido por el administrador.</p>' +
+        '<a class="btn-wsp" href="' + link + '" target="_blank" rel="noopener">Unirme al Grupo ' + g + ' →</a>' +
+      '</div>' +
+    '</div>';
+
+  document.getElementById('btn-cerrar').addEventListener('click', cerrarPopup);
+  document.getElementById('overlay').addEventListener('click', function (e) {
+    if (e.target === this) cerrarPopup();
+  });
+});
+</script>
+</body>
+</html>
