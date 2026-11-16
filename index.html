@@ -135,6 +135,15 @@
     margin-bottom: 14px;
   }
   .popup p { color: #667; font-size: .9rem; margin-bottom: 18px; }
+  .popup .facilitador {
+    background: #eef4fb;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 18px;
+    font-size: .88rem;
+    color: #234;
+  }
+  .popup .facilitador strong { color: #0d4a8f; display: block; margin-top: 2px; font-size: .95rem; }
   .popup .btn-wsp {
     display: block;
     width: 100%;
@@ -174,6 +183,7 @@
 <script>
 const DATOS = [["6104168",1,"Juan Á. M."],["10026068",1,"Iván A. C."],["3499635",1,"Abdel A. V."],["6791816",1,"Gonzalo A. C."],["2383715",1,"Ana A. T."],["8409882",1,"Lorgio A. A."],["4980434",1,"Edgar A. C."],["8447977",1,"Jaime A. Q."],["2301876",1,"Juan B. P."],["2368554",1,"Juan B. M."],["4251679",1,"Lilian B. H."],["6074604",1,"Mérida C. T."],["6883699",1,"Gualberto C. H."],["5960485",1,"Efrain C. M."],["8415412",1,"Javier C. Q."],["1362706",1,"Grosby C. H."],["4987598",1,"Diego C. A."],["4261767",1,"María C."],["4887082",1,"Daniel C. M."],["6093714",1,"Ruddy C. L."],["8350459",1,"Luis C. A."],["9999699",1,"Gualberto C. F."],["3480729",1,"Eulogio C. K."],["5742041",1,"Eddy C. A."],["4250802",1,"Wilma C. C."],["4967116",1,"Vania C. M."],["6852219",1,"Marco C. C."],["10038353",2,"Jhesenia F. F."],["2016984",2,"Rogelio F. H."],["4763460",2,"Andrez F. P."],["4952969",2,"Jhovanna G. F."],["4640875",2,"María G. B."],["2630332",2,"Jose G. G."],["4369225",2,"Jose G. A."],["4818501",2,"Jorge H. M."],["4919217",2,"Johannes H. L."],["4845692",2,"Orlando L. C."],["8318114",2,"Guido L. H."],["6119564",2,"Dorís L. C."],["3427621",2,"Pedro L. V."],["6080199",2,"Denisse M. H."],["5943198",2,"Mariela M. M."],["8431866",2,"Freddy M. P."],["4969338",2,"Julio M. Q."],["2602654",2,"Alfredo M. M."],["4262775",2,"Jose M. M."],["7024261",2,"William M. Q."],["6430736",2,"Luz M. C."],["6178591",2,"Claribel O. V."],["3455154",2,"Miriam P. C."],["7801456",2,"José P. R."],["4895312",2,"Lourdes Q. C."],["9909574",2,"Maria Q. C."],["4777282",2,"Reynaldo Q. H."],["4265867",3,"German Q. L."],["9968611",3,"Amador Q. M."],["4937644",3,"Ruben Q. P."],["6729549",3,"Karla R. I."],["6147990",3,"Roger R. A."],["9960109",3,"Sonia R. Q."],["6048345",3,"Lourdes R. Z."],["6181252",3,"Mabel R. T."],["2710481",3,"Alejandro R. E."],["8311371",3,"Elvis R. R."],["4894132",3,"Cesar R. M."],["2705920",3,"Rafael S. Q."],["5943884",3,"Gustavo S. M."],["6122750",3,"Angela S. C."],["4960313",3,"Jimmy S. C."],["3430003",3,"Manuel T."],["3434026",3,"Wilson T. A."],["5983811",3,"Amalia T. F."],["8331105",3,"Marcela U. C."],["5069516",3,"Nestor V. G."],["9958298",3,"Alvaro V. R."],["3538847",3,"Martha V. A."],["4871310",3,"Ramiro V. Q."],["5956113",3,"Lila V. S."],["3375755",3,"H V. H."],["3459630",3,"Willy Y. C."],["4802627",3,"Nikky Z. L."]];
 const LINKS = {"1":"https://chat.whatsapp.com/FyrjPczibCN5HnxwR50eAL","2":"https://chat.whatsapp.com/L2YaKbZ3lwSHyLMyHrEU4y","3":"https://chat.whatsapp.com/LOejfZ3qgGOFydGV2LscaS"};
+const FACILITADORES = {"1":"Omar Quispe Mita","2":"Samuel Paco Guachalla","3":"Miguel Mejía Ali"};
 
 const form = document.getElementById('form');
 const input = document.getElementById('ci');
@@ -210,6 +220,7 @@ form.addEventListener('submit', function (e) {
         '<div class="nombre">' + nombre + '</div>' +
         '<div class="grupo-num">' + g + '</div>' +
         '<h2>Tu grupo es el Grupo ' + g + '</h2>' +
+        '<div class="facilitador">👨‍🏫 Facilitador de tu curso:<strong>' + FACILITADORES[g] + '</strong></div>' +
         '<p>Si este eres tú, únete únicamente a este grupo. Si entras a otro, serás removido por el administrador.</p>' +
         '<a class="btn-wsp" href="' + link + '" target="_blank" rel="noopener">Unirme al Grupo ' + g + ' →</a>' +
       '</div>' +
